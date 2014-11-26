@@ -1,5 +1,5 @@
 var rest = require("rest")
-var mime = require('rest/interceptor/mime');
+var mime = require("rest/interceptor/mime");
 
 var apiUrl = "http://rest-bookmarks.herokuapp.com/api/bookmarks";
 
@@ -73,6 +73,15 @@ var bookmarkSteps = function() {
   this.Then('the HTTP status code is $code', function (code, callback) {
     if(response.status.code != parseInt(code)) {
       callback.fail(new Error("Invalid HTTP status code " + response.status.code));
+    }
+    else {
+      callback();
+    }
+  });
+
+  this.Then('the server has sent back the message "$message"', function (message, callback) {
+    if(response.entity != message) {
+      callback.fail(new Error("Invalid server respons: " + response.entity));
     }
     else {
       callback();
