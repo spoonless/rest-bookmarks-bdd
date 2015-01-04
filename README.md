@@ -1,17 +1,18 @@
 Acceptance testing with cucumber.js
 ===================================
 
-There are some acceptance tests for the demo application http://rest-bookmarks.herokuapp.com/
+There are some acceptance tests for the demo application http://rest-bookmarks.herokuapp.com/.
+The source code of the demo application is available in this [repo](https://github.com/spoonless/rest-bookmarks).
 
-This project is based on cucumber-js. Therefore once you have installed npm and node.js
+This project is based on cucumber-js. Therefore once you have installed npm and node.js, you have
 
-To install cucumber globally:
+to install cucumber globally:
 > npm install -g cucumber
 
-To install project dependencies:
+to install project dependencies:
 > npm install
 
-To run the feature:
+and then to run the feature:
 > cucumber.js create-bookmark.feature -r restbookmark.steps.js -f pretty
 
 
