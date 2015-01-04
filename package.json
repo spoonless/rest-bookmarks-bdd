@@ -1,12 +1,12 @@
 {
   "name": "bdd-restbookmark",
   "version": "1.0.0",
-  "description": "Les tests d'acceptation pour l'application rest-bookmark",
+  "description": "partial acceptance tests for the RESTful application http://rest-bookmarks.herokuapp.com/",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "David Gayerie",
   "license": "ISC",
   "dependencies": {
     "rest": "^1.2.0"
