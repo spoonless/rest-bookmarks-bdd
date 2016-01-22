@@ -6,8 +6,8 @@ Scenario: Creating one bookmark
 ###############################
 
   Given a bookmark with the following content:
-  |name       |description       |url               |
-  |mybookmark |boorkmark for test|http://example.com|
+  |name       |description      |url               |
+  |mybookmark |bookmark for test|http://example.com|
 
   When I create the bookmark
 
@@ -19,8 +19,8 @@ Scenario: Bookmark cannot be created if no name is provided
 ###########################################################
 
   Given a bookmark with the following content:
-  |name       |description       |url               |
-  |           |boorkmark for test|http://example.com|
+  |name       |description      |url               |
+  |           |bookmark for test|http://example.com|
 
   When I create the bookmark
 
@@ -32,8 +32,8 @@ Scenario: Bookmark cannot be created if no URL is provided
 ##########################################################
 
   Given a bookmark with the following content:
-  |name       |description       |url               |
-  |mybookmark |boorkmark for test|                  |
+  |name       |description      |url               |
+  |mybookmark |bookmark for test|                  |
 
   When I create the bookmark
 
