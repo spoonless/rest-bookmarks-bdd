@@ -9,6 +9,7 @@
   "author": "David Gayerie",
   "license": "ISC",
   "dependencies": {
-    "rest": "^1.2.0"
+    "rest": "^1.2.0",
+    "cucumber": "1.X.X"
   }
 }
