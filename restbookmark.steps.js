@@ -1,4 +1,4 @@
-var {defineSupportCode} = require('cucumber');
+var cucumber = require('cucumber');
 var rest = require("rest")
 var mime = require("rest/interceptor/mime");
 
@@ -20,7 +20,7 @@ client.withLatestBookmark = function(callback) {
     });
  }
 
-defineSupportCode(function({Given, When, Then}) {
+cucumber.defineSupportCode(function({Given, When, Then}) {
 
   var bookmark;
   var response;
@@ -53,50 +53,38 @@ defineSupportCode(function({Given, When, Then}) {
     });
   });
 
-  Then('the bookmark is created', function (callback) {
+  Then('the bookmark is created', function () {
     if(response.status.code != 201) {
-      callback.fail(new Error("Invalid HTTP status code " + response.status.code));
-    }
-    else {
-      callback();
+      throw new Error("Invalid HTTP status code " + response.status.code)
     }
   });
 
-  Then('the bookmark is not created', function (callback) {
+  Then('the bookmark is not created', function () {
     if(response.status.code == 201) {
-      callback.fail(new Error("Invalid HTTP status code " + response.status.code));
-    }
-    else {
-      callback();
+      throw new Error("Invalid HTTP status code " + response.status.code);
     }
   });
 
-  Then('the HTTP status code is {code:int}', function (code, callback) {
-    if(response.status.code != parseInt(code)) {
-      callback.fail(new Error("Invalid HTTP status code " + response.status.code));
-    }
-    else {
-      callback();
+  Then('the HTTP status code is {code:int}', function (code) {
+    if(response.status.code != code) {
+      throw new Error("Invalid HTTP status code " + response.status.code);
     }
   });
 
-  Then('the server has sent back the message {message:stringInDoubleQuotes}', function (message, callback) {
+  Then('the server has sent back the message {message:stringInDoubleQuotes}', function (message) {
     if(response.entity != message) {
-      callback.fail(new Error("Invalid server respons: " + response.entity));
-    }
-    else {
-      callback();
+      throw new Error("Invalid server response: " + response.entity);
     }
   });
 
   Then('the server provides an URI for the bookmark', function (callback) {
     if(! response.headers['Location']) {
-      callback.fail(new Error("No header location find for the bookmark in the server response"));
+      callback(new Error("No header location find for the bookmark in the server response"));
     }
     else {
       client(response.headers['Location']).then(function(r) {
         if (r.status.code != 200) {
-          callback.fail(new Error("No header location find for the bookmark in the server response"));
+          callback(new Error("No header location find for the bookmark in the server response"));
         }
         else {
           callback();
@@ -104,5 +92,4 @@ defineSupportCode(function({Given, When, Then}) {
       });
     }
   });
-
 });
