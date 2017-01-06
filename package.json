@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "rest": "^1.2.0",
-    "cucumber": "1.X.X"
+    "cucumber": "2.0.0-rc.6"
   }
 }

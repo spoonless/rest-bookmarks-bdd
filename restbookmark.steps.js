@@ -1,3 +1,4 @@
+var {defineSupportCode} = require('cucumber');
 var rest = require("rest")
 var mime = require("rest/interceptor/mime");
 
@@ -7,7 +8,7 @@ client = rest.wrap(mime);
 
 client.withLatestBookmark = function(callback) {
    client({
-      "path": apiUrl, 
+      "path": apiUrl,
       "method":"HEAD"})
     .then(function(r) {
         var matches = /<([^>]+)>; rel="current"/.exec(r.headers["Link"])
@@ -19,21 +20,21 @@ client.withLatestBookmark = function(callback) {
     });
  }
 
-var bookmarkSteps = function() {
-  
+defineSupportCode(function({Given, When, Then}) {
+
   var bookmark;
   var response;
-  
-  this.Given('a bookmark with the following content:', function(bookmarkTable, callback) {
+
+  Given('a bookmark with the following content:', function(bookmarkTable, callback) {
     bookmark = bookmarkTable.hashes()[0];
     callback();
   });
-  
-  this.When('I create the bookmark', function (callback) {
+
+  When('I create the bookmark', function (callback) {
     client({
-      "path": apiUrl, 
-      "headers":{"Content-Type":"application/json"}, 
-      "method":"POST", 
+      "path": apiUrl,
+      "headers":{"Content-Type":"application/json"},
+      "method":"POST",
       "entity": bookmark})
     .then(function(r) {
         response = r;
@@ -41,7 +42,7 @@ var bookmarkSteps = function() {
     });
   });
 
-  this.Then('the bookmark is now the latest', function (callback) {
+  Then('the bookmark is now the latest', function (callback) {
     client.withLatestBookmark(function(r) {
       if (bookmark.name != r.entity.name || bookmark.description != r.entity.description || bookmark.url != r.entity.url) {
         callback(new Error("Unexpected latest bookmark: " + r.entity));
@@ -52,7 +53,7 @@ var bookmarkSteps = function() {
     });
   });
 
-  this.Then('the bookmark is created', function (callback) {
+  Then('the bookmark is created', function (callback) {
     if(response.status.code != 201) {
       callback.fail(new Error("Invalid HTTP status code " + response.status.code));
     }
@@ -61,7 +62,7 @@ var bookmarkSteps = function() {
     }
   });
 
-  this.Then('the bookmark is not created', function (callback) {
+  Then('the bookmark is not created', function (callback) {
     if(response.status.code == 201) {
       callback.fail(new Error("Invalid HTTP status code " + response.status.code));
     }
@@ -70,7 +71,7 @@ var bookmarkSteps = function() {
     }
   });
 
-  this.Then('the HTTP status code is $code', function (code, callback) {
+  Then('the HTTP status code is {code:int}', function (code, callback) {
     if(response.status.code != parseInt(code)) {
       callback.fail(new Error("Invalid HTTP status code " + response.status.code));
     }
@@ -79,7 +80,7 @@ var bookmarkSteps = function() {
     }
   });
 
-  this.Then('the server has sent back the message "$message"', function (message, callback) {
+  Then('the server has sent back the message {message:stringInDoubleQuotes}', function (message, callback) {
     if(response.entity != message) {
       callback.fail(new Error("Invalid server respons: " + response.entity));
     }
@@ -88,7 +89,7 @@ var bookmarkSteps = function() {
     }
   });
 
-  this.Then('the server provides an URI for the bookmark', function (callback) {
+  Then('the server provides an URI for the bookmark', function (callback) {
     if(! response.headers['Location']) {
       callback.fail(new Error("No header location find for the bookmark in the server response"));
     }
@@ -104,6 +105,4 @@ var bookmarkSteps = function() {
     }
   });
 
-}
-
-module.exports = bookmarkSteps;
+});
